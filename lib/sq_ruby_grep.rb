@@ -1,5 +1,5 @@
 require 'sq_ruby_grep/version'
-require 'ring_buffer'
+require 'sq_ruby_grep/ring_buffer'
 require 'sq_ruby_grep/parser'
 
 module SqRubyGrep
