@@ -1,4 +1,4 @@
-# RubyGrep
+# SqRubyGrep
 
 It just the training project for SQ interview. Forget it! :)
 
@@ -7,7 +7,7 @@ It just the training project for SQ interview. Forget it! :)
 Add this line to your application's Gemfile:
 
 ```
-gem 'ruby_grep'
+gem 'sq_ruby_grep'
 ```
 
 And then execute:
@@ -16,11 +16,11 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install ruby_grep
+    $ gem install sq_ruby_grep
 
 ## Usage
 
-    $ ruby_grep [FILE] [options]
+    $ sq_ruby_grep [FILE] [options]
 
     -e, --regex=PATTERN              Use PATTERN as the pattern.
     

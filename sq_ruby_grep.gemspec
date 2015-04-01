@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'ruby_grep/version'
+require 'sq_ruby_grep/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "ruby_grep"
-  spec.version       = RubyGrep::VERSION
+  spec.name          = "sq_ruby_grep"
+  spec.version       = SqRubyGrep::VERSION
   spec.authors       = ["coolelvis"]
   spec.email         = ["elvisplus2@gmail.com"]
   spec.summary       = %q{It just the training project for SQ interview.}

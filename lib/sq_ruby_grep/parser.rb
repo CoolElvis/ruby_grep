@@ -1,6 +1,6 @@
 require 'optparse'
 
-module RubyGrep
+module SqRubyGrep
   class Parser
     def self.parse(options)
       args = Hash.new

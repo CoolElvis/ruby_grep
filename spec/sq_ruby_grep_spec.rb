@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe RubyGrep do
+describe SqRubyGrep do
   context 'when grep file' do
     let(:lines)        { lines = File.readlines path }
     let(:path)         { 'test/fixtures/lines.txt' }
     let(:after_lines)  { 3 }
     let(:before_lines) { 3 }
-    let(:result)       { RubyGrep.grep(file_path:path, pattern: pattern, before_lines: before_lines, after_lines: after_lines).first }
+    let(:result)       { SqRubyGrep.grep(file_path:path, pattern: pattern, before_lines: before_lines, after_lines: after_lines).first }
     let(:pattern)      { /#{target_line} line/ }
 
     context 'when the target line at the middle' do

@@ -1,8 +1,8 @@
-require 'ruby_grep/version'
+require 'sq_ruby_grep/version'
 require 'ring_buffer'
-require 'ruby_grep/parser'
+require 'sq_ruby_grep/parser'
 
-module RubyGrep
+module SqRubyGrep
 
   Result = Struct.new(:match_line, :before_context, :after_context)
 
