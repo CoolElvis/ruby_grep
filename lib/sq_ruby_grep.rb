@@ -8,6 +8,7 @@ module SqRubyGrep
 
   def self.run
     resuts = grep(Parser.parse(ARGV))
+
     resuts.each do |result|
       puts '--'
       puts result.before_context
@@ -65,6 +66,5 @@ module SqRubyGrep
   def self.colorize(string, pattern)
     string.gsub(/(#{pattern})/, "\e[0;33m\\1\033[0m")
   end
-
 
 end
