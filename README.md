@@ -1,7 +1,5 @@
 # SqRubyGrep
 
-It just the training project for SQ interview. Forget it! :)
-
 ## Installation
 
 Add this line to your application's Gemfile:
