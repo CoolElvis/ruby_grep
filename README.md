@@ -18,15 +18,13 @@ Or install it yourself as:
 
 ## Usage
 
-    $ sq_ruby_grep [FILE] [options]
+    $ sq_ruby_grep <pattern> <file> [options]
 
-    -e, --regex=PATTERN              Use PATTERN as the pattern.
-    
     -A, --after-context=NUM          Print NUM lines of trailing context after matching lines.
     
     -B, --before-context=NUM         Print NUM line of leading context before matching lines.
-    
-    -c, --colorize                   Colorize matches
-    
+
+    --not-colorize                   Without colorize
+
     -h, --help                       Prints this help
 

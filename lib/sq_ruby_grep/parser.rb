@@ -3,15 +3,11 @@ require 'optparse'
 module SqRubyGrep
   class Parser
     def self.parse(options)
-      args = Hash.new
+      args = {colorize: true}
 
       opt_parser = OptionParser.new do |opts|
         opts.banner = 'RubyGrep searches the named input FILE for lines containing a match to the given PATTERN.'
         opts.banner = 'Usage: ruby_grep [FILE] [options]'
-
-        opts.on('-e PATTERN', '--regex=PATTERN', String, 'Use PATTERN as the pattern.') do |pattern|
-          args[:pattern] = pattern
-        end
 
         opts.on('-A NUM', '--after-context=NUM', Integer, 'Print NUM lines of trailing context after matching lines.') do |n|
           args[:after_lines] = n
@@ -21,8 +17,8 @@ module SqRubyGrep
           args[:before_lines] = n
         end
 
-        opts.on('-c', '--colorize', 'Colorize matches') do
-          args[:colorize] = true
+        opts.on('--not-colorize', 'Without colorize.') do
+          args[:colorize] = false
         end
 
         opts.on('-h', '--help', 'Prints this help') do
@@ -34,6 +30,7 @@ module SqRubyGrep
 
       opt_parser.parse!(options)
 
+      args[:pattern]   = ARGV.shift
       args[:file_path] = ARGV.shift
 
       if args[:file_path].to_s.empty? || args[:pattern].to_s.empty?

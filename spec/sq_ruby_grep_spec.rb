@@ -2,136 +2,74 @@ require 'spec_helper'
 
 describe SqRubyGrep do
   context 'when grep file' do
-    let(:lines)        { lines = File.readlines path }
-    let(:path)         { 'test/fixtures/lines.txt' }
-    let(:after_lines)  { 3 }
-    let(:before_lines) { 3 }
-    let(:result)       { SqRubyGrep.grep(file_path:path, pattern: pattern, before_lines: before_lines, after_lines: after_lines).first }
-    let(:pattern)      { /#{target_line} line/ }
+    let(:path)          { 'test/fixtures/text.txt' }
+    let(:bin_path)      { File.expand_path '../../bin/sq_ruby_grep', __FILE__ }
+    let(:result)        { Grep.new(pattern: pattern, file_path: path, before_lines: before_lines, after_lines: after_lines).run.first }
+    let(:pattern)       { 'needle' }
+    let(:original_grep) { "grep #{pattern} #{path} -A #{after_lines} -B #{before_lines}" }
+    let(:sq_ruby_grep) { "#{bin_path} #{pattern} #{path} -A #{after_lines} -B #{before_lines} --not-colorize" }
 
-    context 'when the target line at the middle' do
-
-      let(:target_line) { 6 }
-
-      it 'before_context is valid' do
-        expect(result.before_context).to eql lines[target_line - before_lines - 1 , before_lines]
-      end
-
-      it 'match_line is valid' do
-        expect(result.match_line).to eql lines[target_line - 1]
-      end
-
-      it 'after_context is valid' do
-        expect(result.after_context).to eql lines[target_line, after_lines]
-      end
-
-      context 'when after_lines is out scope of file' do
-        let(:after_lines) { 30 }
-
-        it 'after_context is valid' do
-          expect(result.after_context).to eql lines[target_line, after_lines]
-        end
-
-        it 'before_context is valid' do
-          expect(result.before_context).to eql lines[target_line - before_lines - 1 , before_lines]
-        end
-      end
-
-      context 'when before_lines is out scope of file' do
-        let(:before_lines) { 30 }
-
-        it 'after_context is valid' do
-          expect(result.after_context).to eql  lines[target_line, after_lines]
-        end
-
-        it 'before_context is valid' do
-          expect(result.before_context).to eql lines[0 , target_line - 1]
-        end
-      end
-
-    end
-
-    context 'when the target line at the end' do
-      let(:target_line) { 12 }
-
-      it 'before_context is valid' do
-        expect(result.before_context).to eql lines[target_line - before_lines - 1 , before_lines]
-      end
-
-      it 'match_line is valid' do
-        expect(result.match_line).to eql lines[target_line - 1]
-      end
-
-      it 'after_context is valid' do
-        expect(result.after_context).to eql lines[target_line, after_lines]
-      end
-
-      context 'when after_lines is out scope of file' do
-        let(:after_lines) { 30 }
-
-        it 'after_context is valid' do
-          expect(result.after_context).to eql lines[target_line, after_lines]
-        end
-
-        it 'before_context is valid' do
-          expect(result.before_context).to eql lines[target_line - before_lines - 1 , before_lines]
-        end
-      end
-
-      context 'when before_lines is out scope of file' do
-        let(:before_lines) { 30 }
-
-        it 'after_context is valid' do
-          expect(result.after_context).to eql  lines[target_line, after_lines]
-        end
-
-        it 'before_context is valid' do
-          expect(result.before_context).to eql lines[0 , target_line - 1]
-        end
-      end
-
-    end
-
-    context 'when the target line at the beginning ' do
-      let(:target_line) { 2 }
-
-      it 'before_context is valid' do
-        expect(result.before_context).to eql lines[0, 1]
-      end
-
-      it 'match_line is valid' do
-        expect(result.match_line).to eql lines[target_line - 1]
-      end
-
-      it 'after_context is valid' do
-        expect(result.after_context).to eql lines[target_line, after_lines]
-      end
-
-      context 'when after_lines is out scope of file' do
-        let(:after_lines) { 30 }
-
-        it 'after_context is valid' do
-          expect(result.after_context).to eql lines[target_line, after_lines]
-        end
-
-        it 'before_context is valid' do
-          expect(result.before_context).to eql lines[0, target_line - 1]
-        end
-      end
-
-      context 'when before_lines is out scope of file' do
-        let(:before_lines) { 30 }
-
-        it 'after_context is valid' do
-          expect(result.after_context).to eql lines[target_line, after_lines]
-        end
-
-        it 'before_context is valid' do
-          expect(result.before_context).to eql lines[0 , target_line - 1]
-        end
+    shared_examples 'origin grep' do
+      it 'sq_ruby_grep vs original_grep' do
+        expect(`#{sq_ruby_grep}`).to eq  `#{original_grep}`
       end
     end
 
+    context 'when has no context' do
+      let(:after_lines)   { 0 }
+      let(:before_lines)  { 0 }
+
+      it_behaves_like 'origin grep'
+    end
+
+    context 'when has no group separator' do
+      let(:after_lines)   { 2 }
+      let(:before_lines)  { 2 }
+
+      it_behaves_like 'origin grep'
+    end
+
+    context 'when before context intersects prev after context' do
+      let(:after_lines)   { 2 }
+      let(:before_lines)  { 3 }
+
+      it_behaves_like 'origin grep'
+    end
+
+    context 'when before context touch prev after context' do
+      let(:after_lines)   { 2 }
+      let(:before_lines)  { 3 }
+
+      it_behaves_like 'origin grep'
+    end
+
+    context 'when after context is out range of file' do
+      let(:after_lines)   { 20 }
+      let(:before_lines)  { 2 }
+
+      it_behaves_like 'origin grep'
+    end
+
+    context 'when before context is out range of file' do
+      let(:after_lines)   { 2 }
+      let(:before_lines)  { 20 }
+
+      it_behaves_like 'origin grep'
+    end
+
+    context 'when has no after context' do
+      let(:after_lines)   { 0 }
+      let(:before_lines)  { 1 }
+
+      it_behaves_like 'origin grep'
+    end
+
+
+    context 'when has no before context' do
+      let(:after_lines)   { 1 }
+      let(:before_lines)  { 0 }
+
+      it_behaves_like 'origin grep'
+    end
   end
-
 end
