@@ -3,6 +3,6 @@
 lib = File.expand_path('../../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'sq_ruby_grep'
-require 'parser'
+require 'sq_ruby_grep/parser'
 
 puts SqRubyGrep.run SqRubyGrep::Parser.parse(ARGV)
