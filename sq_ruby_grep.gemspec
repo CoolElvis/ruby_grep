@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = SqRubyGrep::VERSION
   spec.authors       = ['coolelvis']
   spec.email         = ['elvisplus2@gmail.com']
-  spec.summary       = %q{It just the training project for SQ interview.}
-  spec.description   = %q{It just the training project for SQ interview.}
+  spec.summary       = %q{It just the training project.}
+  spec.description   = %q{It just the training project.}
   spec.homepage      = 'https://github.com/CoolElvis/ruby_grep.git'
   spec.license       = 'MIT'
 

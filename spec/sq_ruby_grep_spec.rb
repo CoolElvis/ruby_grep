@@ -4,7 +4,6 @@ describe SqRubyGrep do
   context 'when grep file' do
     let(:path)          { 'test/fixtures/text.txt' }
     let(:bin_path)      { File.expand_path '../../bin/sq_ruby_grep', __FILE__ }
-    let(:result)        { Grep.new(pattern: pattern, file_path: path, before_lines: before_lines, after_lines: after_lines).run.first }
     let(:pattern)       { 'needle' }
     let(:original_grep) { "grep #{pattern} #{path} -A #{after_lines} -B #{before_lines}" }
     let(:sq_ruby_grep) { "#{bin_path} #{pattern} #{path} -A #{after_lines} -B #{before_lines} --not-colorize" }
